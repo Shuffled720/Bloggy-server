@@ -20,8 +20,8 @@ export const updatePost = async (request, response) => {
         if (!post) {
             response.status(404).json({ msg: 'Post not found' })
         }
-        
-        await Post.findByIdAndUpdate( request.params.id, { $set: request.body })
+
+        await Post.findByIdAndUpdate(request.params.id, { $set: request.body })
 
         response.status(200).json('post updated successfully');
     } catch (error) {
@@ -32,7 +32,7 @@ export const updatePost = async (request, response) => {
 export const deletePost = async (request, response) => {
     try {
         const post = await Post.findById(request.params.id);
-        
+
         await post.delete()
 
         response.status(200).json('post deleted successfully');
@@ -56,13 +56,13 @@ export const getAllPosts = async (request, response) => {
     let category = request.query.category;
     let posts;
     try {
-        if(username) 
+        if (username)
             posts = await Post.find({ username: username });
-        else if (category) 
+        else if (category)
             posts = await Post.find({ categories: category });
-        else 
+        else
             posts = await Post.find({});
-            
+
         response.status(200).json(posts);
     } catch (error) {
         response.status(500).json(error)
